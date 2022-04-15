@@ -180,3 +180,35 @@ getSomething_reject().then((data) => {
 }, (err) => {
   console.log(err);
 });
+
+// testing with include promise for our example 
+
+
+const getTodosLocalJSONFilesPromise = (resource) => {
+  return new Promise((resolve, reject) => {
+      const requestLocalJSONFiles = new XMLHttpRequest();
+
+      requestLocalJSONFiles.addEventListener('readystatechange', () => {
+        if(requestLocalJSONFiles.readyState === 4 && requestLocalJSONFiles.status === 200)
+        {
+          //callback(undefined, requestLocalJSONFiles.responseText);
+          const data = JSON.parse(requestLocalJSONFiles.responseText); // need to parse promise like JSON 
+          resolve(data);
+        } else if (requestLocalJSONFiles.readyState === 4){ 
+          //callback('coud not fetch data', undefined);
+          reject('error getting resource ')
+        }
+      });
+    
+      requestLocalJSONFiles.open('GET', resource);
+      requestLocalJSONFiles.send(); 
+    })
+};
+
+getTodosLocalJSONFilesPromise('todos/luigi.json').then(data => { // because result 'data' is the promise , and remove () because is just one.
+  console.log('promised data resolved : ', data);
+}).catch(err => { // same changes like data promise from the row above
+  console.log('promised err rejoected : ', err);
+})
+
+//
