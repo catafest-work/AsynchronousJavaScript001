@@ -1,3 +1,4 @@
+
 // -- basic example 
 
 const request = new XMLHttpRequest();
@@ -144,6 +145,7 @@ const getTodosLocalJSONFiles = (resource, callback) => {
 
 console.log("Testing with many local json file ");
 
+// calback hell - triangle of doom ... because nesting callback within callback within callback ...
 getTodosLocalJSONFiles('todos/luigi.json',(err, data) => {
   console.log(data);
   getTodosLocalJSONFiles('todos/mario.json', (err,data) => {
@@ -151,4 +153,30 @@ getTodosLocalJSONFiles('todos/luigi.json',(err, data) => {
       console.log(data)
       })
     })
+});
+
+// promise example resolve 
+const getSomething_resolve = () => {
+  return new Promise((resolve, reject) => {
+    // fetch something 
+    resolve('some data');
+  });
+};
+
+getSomething_resolve().then((data) => {
+  console.log(data);
+});
+
+
+const getSomething_reject = () => {
+  return new Promise((resolve, reject) => {
+    // fetch something 
+    reject ('some error');
+  });
+};
+// promise example reject
+getSomething_reject().then((data) => {
+  console.log(data);
+}, (err) => {
+  console.log(err);
 });
