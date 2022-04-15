@@ -147,6 +147,8 @@ console.log("Testing with many local json file ");
 getTodosLocalJSONFiles('todos/luigi.json',(err, data) => {
   console.log(data);
   getTodosLocalJSONFiles('todos/mario.json', (err,data) => {
-    console.log(data)
+    console.log(data);  getTodosLocalJSONFiles('todos/shaun.json', (err,data) => {
+      console.log(data)
+      })
     })
 });
