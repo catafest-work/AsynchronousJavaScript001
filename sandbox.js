@@ -230,12 +230,30 @@ const getTodos_chaining_Promise = (resource) => {
     })
 };
 
+// chaining two promises 
 getTodos_chaining_Promise('todos/luigi.json').then(data => { // because result 'data' is the promise , and remove () because is just one.
   console.log('promised first data luigi resolved and show like : ', data);
   // need return this to the next one promise get from mario.js
   return getTodos_chaining_Promise('todos/mario.json');
-}).then(data => { // mario.js promise result
-  console.log('promised second data marion resolved and show like : ', data)
+}).then(data => { // mario.json promise result
+  console.log('promised second data mario resolved and show like : ', data)
+}).catch(err => { // solve error for any error 
+  console.log('promised err rejected : ', err);
+})
+
+// chaining all promises returned
+
+getTodos_chaining_Promise('todos/luigi.json')
+  .then(data => { // because result 'data' is the promise , and remove () because is just one.
+  console.log('chaineing promised Luigi: ', data);
+  // need return this to the next one promise get from mario.json
+  return getTodos_chaining_Promise('todos/mario.json');
+}).then(data => { 
+  // shaun.json promise result
+  console.log('chaineing promised Mario: ', data)
+  return getTodos_chaining_Promise('todos/shaun.json');
+}).then(data => { // shaun.json promise result
+  console.log('chaineing promised Shaun : ', data)
 }).catch(err => { // solve error for any error 
   console.log('promised err rejected : ', err);
 })
