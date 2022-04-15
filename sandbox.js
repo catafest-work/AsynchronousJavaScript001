@@ -1,4 +1,3 @@
-
 // -- basic example 
 
 const request = new XMLHttpRequest();
@@ -183,7 +182,6 @@ getSomething_reject().then((data) => {
 
 // testing with include promise for our example 
 
-
 const getTodosLocalJSONFilesPromise = (resource) => {
   return new Promise((resolve, reject) => {
       const requestLocalJSONFiles = new XMLHttpRequest();
@@ -211,4 +209,33 @@ getTodosLocalJSONFilesPromise('todos/luigi.json').then(data => { // because resu
   console.log('promised err rejoected : ', err);
 })
 
-//
+// testing with chaining promises 
+
+const getTodos_chaining_Promise = (resource) => {
+  return new Promise((resolve, reject) => {
+      const request_chaining_Promise = new XMLHttpRequest();
+
+      request_chaining_Promise.addEventListener('readystatechange', () => {
+        if(request_chaining_Promise.readyState === 4 && request_chaining_Promise.status === 200)
+        {
+          const data = JSON.parse(request_chaining_Promise.responseText); // need to parse promise like JSON 
+          resolve(data);
+        } else if (request_chaining_Promise.readyState === 4){
+          reject('error getting resource ')
+        }
+      });
+    
+      request_chaining_Promise.open('GET', resource);
+      request_chaining_Promise.send(); 
+    })
+};
+
+getTodos_chaining_Promise('todos/luigi.json').then(data => { // because result 'data' is the promise , and remove () because is just one.
+  console.log('promised first data luigi resolved and show like : ', data);
+  // need return this to the next one promise get from mario.js
+  return getTodos_chaining_Promise('todos/mario.json');
+}).then(data => { // mario.js promise result
+  console.log('promised second data marion resolved and show like : ', data)
+}).catch(err => { // solve error for any error 
+  console.log('promised err rejected : ', err);
+})
